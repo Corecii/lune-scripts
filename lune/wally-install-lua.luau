@@ -5,6 +5,10 @@
 	with defaults and some support for WaitForChild require paths.
 --]]
 
+--[=[ lunar
+	about = "Wraps `wally install` with a Lua version of wally-package-types to export types in link files."
+]=]
+
 local process = require("@lune/process")
 local fs = require("@lune/fs")
 local luau = require("@lune/luau")
