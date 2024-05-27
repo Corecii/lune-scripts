@@ -13,12 +13,12 @@ These scripts can be easily used with [Lunar](https://github.com/corecii/lunar) 
 	url = "https://github.com/corecii/lune-scripts"
 ```
 
-You can include only specific scripts with the `scripts` field. For example:
+You can include only specific scripts with the `tasks` field. For example:
 
 ```toml
 # corecii-lune-scripts.lunar.toml
 
 [repo]
 url = "https://github.com/corecii/lune-scripts"
-scripts = ["enable-loadmodule", "wally-install"]
+tasks = ["enable-loadmodule", "wally-install"]
 ```
