@@ -7,7 +7,7 @@ local process = require("@lune/process")
 local fs = require("@lune/fs")
 local serde = require("@lune/serde")
 
-local function exec_raw(cmdline: string | { string }, options)
+local function exec_raw(cmdline: string | { string }, options: process.SpawnOptions?)
 	local pieces
 	if type(cmdline) == "string" then
 		pieces = {}
@@ -16,6 +16,13 @@ local function exec_raw(cmdline: string | { string }, options)
 		end
 	else
 		pieces = cmdline
+	end
+
+	local options: typeof(assert(options)) = options or {}
+	if options.shell == nil then
+		options.shell = true
+	elseif options.shell == false then
+		options.shell = nil
 	end
 
 	local program = table.remove(pieces, 1)
