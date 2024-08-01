@@ -2,25 +2,18 @@
 about = "Installs wally packages, with types and patches."
 ]=]
 
-local process = require("@lune/process")
 local fs = require("@lune/fs")
-local serde = require("@lune/serde")
 
 local exec = require("./lib/exec")
+local getProjectFile = require("./lib/getProjectFile")
 
 exec({ "wally", "install" }):assert()
 
 if exec({ "rojo", "--version" }).ok then
-	local projectFile
-	if fs.isFile(".vscode/settings.json") then
-		local data = serde.decode("json", fs.readFile(".vscode/settings.json"))
-		projectFile = data["luau-lsp.sourcemap.rojoProjectFile"]
-	end
-
-	projectFile = projectFile or "default.project.json"
-
+	local projectFile = getProjectFile()
+	
 	local updatedSourcemap = false
-	if fs.isFile(projectFile) then
+	if projectFile then
 		exec({ "rojo", "sourcemap", "-o", "sourcemap.json", projectFile }):assert()
 		updatedSourcemap = true
 	end
