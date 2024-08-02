@@ -77,7 +77,7 @@ return function(workflow)
 		exec({
 			"powershell",
 		}, {
-			stdin = `([WMICLASS]"win32_process").Create('explorer config.edit_to', "{process.cwd}")`,
+			stdin = `([WMICLASS]"win32_process").Create('explorer {config.edit_to}', "{process.cwd}")`,
 			stdio = {
 				stdout = "none",
 				stderr = "none",
