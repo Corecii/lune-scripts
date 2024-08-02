@@ -1,5 +1,6 @@
 local process = require("@lune/process")
 local stdio = require("@lune/stdio")
+local fs = require("@lune/fs")
 
 local exec = require("./exec")
 local platform = require("./platform")
@@ -24,7 +25,7 @@ return function(file_in: string)
 		fullPath = cwd .. "\\" .. file
 	end
 
-	return exec({
+	exec({
 		"powershell",
 	}, {
 		stdin = `cd "{process.cwd}";`
@@ -35,5 +36,13 @@ return function(file_in: string)
 			stdout = "none",
 			stderr = "none",
 		},
-	})
+	}):assert()
+	
+	-- In an edge case, powershell can ask the user if they want to permanently
+	-- delete the file. If they choose "no", we should exit instead of
+	-- overwriting the file.
+	if fs.metadata(file_in).exists then
+		print(`{stdio.color("yellow")}User chose not to delete the file; exiting...{stdio.color("reset")}`)
+		process.exit(1)
+	end
 end

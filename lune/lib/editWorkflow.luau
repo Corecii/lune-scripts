@@ -52,7 +52,7 @@ return function(workflow)
 	if workflow == "build" then
 		if fs.metadata(config.build_to).exists then
 			print(`Moving existing {config.build_to} to Recycle Bin...`)
-			recycle(config.build_to):assert()
+			recycle(config.build_to)
 			print(`  recycled {config.build_to}`)
 		end
 
@@ -60,7 +60,7 @@ return function(workflow)
 	elseif workflow == "edit-build" then
 		if fs.metadata(config.edit_to).exists then
 			print(`Moving existing {config.edit_to} to Recycle Bin...`)
-			recycle(config.edit_to):assert()
+			recycle(config.edit_to)
 			print(`  recycled {config.edit_to}`)
 		end
 
@@ -77,7 +77,7 @@ return function(workflow)
 		exec({
 			"powershell",
 		}, {
-			stdin = `([WMICLASS]"win32_process").Create('explorer {config.edit_to}', "{process.cwd}")`,
+			stdin = `([WMICLASS]"win32_process").Create('explorer "{config.edit_to}"', "{process.cwd}")`,
 			stdio = {
 				stdout = "none",
 				stderr = "none",
@@ -109,7 +109,7 @@ return function(workflow)
 		else
 			if fs.metadata(config.edit_to).exists then
 				print(`Moving existing {config.edit_to} to Recycle Bin...`)
-				recycle(config.edit_to):assert()
+				recycle(config.edit_to)
 				print(`  recycled {config.edit_to}`)
 			end
 
@@ -130,7 +130,7 @@ return function(workflow)
 			exec({
 				"powershell",
 			}, {
-				stdin = `([WMICLASS]"win32_process").Create('explorer config.edit_to', "{process.cwd}")`,
+				stdin = `([WMICLASS]"win32_process").Create('explorer "{config.edit_to}"', "{process.cwd}")`,
 				stdio = {
 					stdout = "none",
 					stderr = "none",
