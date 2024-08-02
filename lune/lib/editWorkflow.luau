@@ -31,7 +31,7 @@ local recycle = require("./recycle")
 
 local function captureRustError(result: exec.ExecResult | { stdout: string, stderr: string }, prefix: string): string
 	local output = result.stderr
-	output = output:gsub("^.*(%[[^\r\n]*ERROR[^\r\n]*%])", "%1") -- trim everything before the first error
+	output = output:gsub("^.-(%[[^\r\n]*ERROR[^\r\n]*%])", "%1") -- trim everything before the first error
 	output = prefix .. string.gsub(output, "\n", "\n" .. prefix) -- indent
 
 	return output
