@@ -45,6 +45,7 @@ else
 end
 
 config.project = config.project or "default.project.json"
+config.sync_project = config.sync_project or "default.project.json"
 config.build_to = config.build_to or "build.rbxl"
 config.edit_to = config.edit_to or "edit.rbxl"
 
@@ -158,7 +159,7 @@ return function(workflow)
 		print("  studio is open")
 
 		print("Starting Rojo server...")
-		local rojoProjectPath = `{process.cwd}/default.project.json`
+		local rojoProjectPath = `{process.cwd}/{config.sync_project}`
 
 		local response
 		local rojoReqSucceeded, _ = pcall(function()
@@ -188,7 +189,7 @@ return function(workflow)
 						stderr = "default",
 					},
 				})
-				if not result.ok and not exiting then
+				if not exiting then
 					print(`{stdio.color("yellow")}Rojo server closed unexpectedly. Cause:{stdio.color("reset")}`)
 					print(captureRustError(result, "  "))
 
